@@ -1,0 +1,40 @@
+Smart Contracts are Upgraded by 3 methods.
+    1. Not really upgrading method/ Parameterize method
+        -Can't add new storage
+        -Can't add new logic
+        -Having setter function for every parameters.
+        -Like entrance fee to lottery can be increased or decreased with setter function i.e "setFee".
+    2. Social Migration Method.
+        -Pros:
+            1. Truest to blockchain values.
+            2. Easiest to audit
+        -Cons:
+            1.Lot of work to convince the users to move
+            2.Differnt addresses
+    3. Proxies
+        The underlying Idea: Instead of interacting with your smart contract directly, your users interact with a proxy that only holds the state and delegates execution to a logic contract that holds the code. Upgradeability is then achieved by simply changing the reference to the logic contract in the proxy contract, so new code is used for executing all calls.
+        It useses delegate calls
+            Delegate calls
+                - There exists a special varient of a message call, named 'delegate call' which is identical to a message call apart from the fact that the code at the target address is executed in the context of the calling contract and msg.sender and msg.value do not changes their values.
+        Terminology in Proxy method:
+            1. The Implementation Contracts
+                - Which has all the code of our protocol. When we upgrade, we launch a brand new Implementation of our contract and point the proxy contract to the new contract
+            2. The Proxy Contract.
+                -This is the contract which points to which Implementation is the "correct" one, and routes everyone's function calls to that contract.
+            3. The users
+                - They make calls to the proxy and have zero direct interactions with the Implementation contract.
+            4. The admin
+                - This is the user(group of user / voters) who decide and upgrade to new Implementation contract and points proxy contract towards it.
+        Here all the storage variables are stored in the proxy contract and not in the Implementation contract.
+
+        Types of Implementation of Proxy Contract
+        1. Transparent Proxy Pattern
+            - Admin can't call Implementation contract functions and can only call admin functions (admin functions are the functions that govern the upgrades, these are located in the proxy contract).
+            - Users and only call functions in the Implementation contract and not the functions in proxy contract(giving meaning to the word transparent as they only see the Implementation contract through the proxy i.e. Proxy contract here is transparent to the User).
+        2. Universal Upgradable Proxies 
+            -Admin only upgrade functions are in the Implementation contracts, Instead of the proxy.
+        3. Diamond Pattern/Multi-Facet Proxy 
+            -Enables people to write smart contracts with virtually no size limit.
+            -Diamonds can be upgraded without having to redeploy existing functionality. Parts of a diamond can be added/replaced/removed while leaving other parts alone.
+            -Standardizes contract interfaces and implementation details of diamonds, enabling software integration and interoperability.
+
